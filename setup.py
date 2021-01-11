@@ -24,6 +24,7 @@ setup(
     packages=find_packages(),
     python_requires='>=3.6',
     install_requires=[
-        'vantage6'
+        'vantage6',
+        'pandas'
     ]
 )
