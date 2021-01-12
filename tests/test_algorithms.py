@@ -1,4 +1,4 @@
-from v6_carrier_py import algorithms
+from v6_test_py import algorithms
 import pandas as pd
 
 DATA = pd.DataFrame(data=[[1, 2], [3, 4]], columns=['column1', 'column2'])
