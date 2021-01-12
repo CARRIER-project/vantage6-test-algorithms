@@ -35,7 +35,7 @@ client.setup_encryption('path/to/rsa/keyfile') # If no encryption configured do 
 task = client.post_task('column_names', image=IMAGE, 
                         collaboration_id=COLLABORATION_ID,
                         organization_ids=[2],
-                        input_={'method': 'column_names', 'master':False, 'kwargs':{'exclude_orgs': [2]}})
+                        input_={'method': 'column_names', 'master':True, 'kwargs':{'exclude_orgs': [2]}})
 
 result = client.get_results(task_id=task['id'])
 
