@@ -1,7 +1,7 @@
 # Vantage6 test algorithms
 
 This repo contains a couple of simple algorithms implemented in python that run on the Vantage6 infrastructure.
-The algorithms are available as docker image: `harbor2.vantage6.ai/testing/v6-test-py`
+The algorithms are available as docker image: `harbor.carrier-mu.src.surf-hosted.nl/carrier/vantage6-test-algorithms`
 
 ## Examples
 
