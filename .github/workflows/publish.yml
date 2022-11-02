@@ -26,5 +26,19 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs.NAME }}
 
+    - name: Retrieve the vantage6 client version
+      id: v6_version
+      run: >
+        TAG=${{docker run ${{ env.IMAGE_NAME }} python -m pip freeze|
+        grep vantage6-client|
+        sed 's/vantage6-client==//g }} >> $GITHUB_OUTPUT
+
     - name: Push the Docker image
       run: docker push ${{ steps.complete_image_name.outputs.NAME }}
+
+    - name: Tag with vantage version
+      run: >
+        docker tag ${{ steps.complete_image_name.outputs.NAME }} 
+        ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs }}
+    - name: push tagged version
+      run: docker push ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs }}
