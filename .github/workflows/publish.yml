@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
     - name: Docker Login
-      #run: echo '${{ secrets.HARBOR_PASSWORD }}' | docker login ${{env.HARBOR_SERVER}} --username '${{ secrets.HARBOR_USER }}' --password-stdin
       uses: docker/login-action@v2.1.0
       with:
         registry: ${{ secrets.CARRIER_HARBOR_SERVER }}
