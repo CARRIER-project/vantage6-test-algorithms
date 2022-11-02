@@ -8,8 +8,8 @@ jobs:
 
   docker-push:
     env:
-      IMAGE_NAME: "harbor.carrier-mu.src.surf-hosted.nl/carrier/vantage6-test-algorithms"
-      HARBOR_SERVER: "harbor.carrier-mu.src.surf-hosted.nl"
+      IMAGE_NAME: "${{ secrets.CARRIER_HARBOR_SERVER }}/carrier/vantage6-test-algorithms"
+      HARBOR_SERVER: "${{ secrets.CARRIER_HARBOR_SERVER }}"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
