@@ -29,9 +29,9 @@ jobs:
     - name: Retrieve the vantage6 client version
       id: v6_version
       run: >
-        TAG=${{docker run ${{ env.IMAGE_NAME }} python -m pip freeze|
+        docker run ${{ env.IMAGE_NAME }} python -m pip freeze|
         grep vantage6-client|
-        sed 's/vantage6-client==//g }} >> $GITHUB_OUTPUT
+        sed 's/vantage6-client==/TAG=/g >> $GITHUB_OUTPUT
 
     - name: Push the Docker image
       run: docker push ${{ steps.complete_image_name.outputs.NAME }}
