@@ -8,22 +8,23 @@ jobs:
 
   docker-push:
     env:
-      IMAGE_NAME: "harbor.carrier-mu.src.surf-hosted.nl/carrier/vantage6-test-algorithms"
-      HARBOR_SERVER: "harbor.carrier-mu.src.surf-hosted.nl"
+      IMAGE_NAME: "carrier/vantage6-test-algorithms"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
     - name: Docker Login
-      #run: echo '${{ secrets.HARBOR_PASSWORD }}' | docker login ${{env.HARBOR_SERVER}} --username '${{ secrets.HARBOR_USER }}' --password-stdin
-      uses: docker/login-action@v1.10.0
+      uses: docker/login-action@v2.1.0
       with:
-        registry: ${{env.HARBOR_SERVER}}
-        username: ${{secrets.HARBOR_USER}}
-        password: ${{secrets.HARBOR_PASSWORD}}
+        registry: ${{ secrets.CARRIER_HARBOR_SERVER }}
+        username: ${{ secrets.CARRIER_HARBOR_USER }}
+        password: ${{ secrets.CARRIER_HARBOR_PASSWORD }}
+        
+    - name: Create image name
+      run: echo NAME=${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }} >> $GITHUB_OUTPUT
+      id: complete_image_name
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{env.IMAGE_NAME}}
+      run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs.NAME }}
 
     - name: Push the Docker image
-      run: docker push $IMAGE_NAME
+      run: docker push ${{ steps.complete_image_name.outputs.NAME }}
