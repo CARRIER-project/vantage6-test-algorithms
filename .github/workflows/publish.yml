@@ -31,7 +31,7 @@ jobs:
       run: >
         docker run ${{ steps.complete_image_name.outputs.NAME }} python -m pip freeze|
         grep vantage6-client|
-        sed 's/vantage6-client==/TAG=/g' >> $GITHUB_OUTPUT
+        sed 's/vantage6-client==/TAG=v6-/g' >> $GITHUB_OUTPUT
 
     - name: Push the Docker image
       run: docker push ${{ steps.complete_image_name.outputs.NAME }}
