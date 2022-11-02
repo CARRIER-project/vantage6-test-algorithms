@@ -39,6 +39,6 @@ jobs:
     - name: Tag with vantage version
       run: >
         docker tag ${{ steps.complete_image_name.outputs.NAME }} 
-        ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs }}
+        ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs.TAG }}
     - name: push tagged version
       run: docker push ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs }}
