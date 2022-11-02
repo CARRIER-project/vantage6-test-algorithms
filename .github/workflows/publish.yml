@@ -8,7 +8,7 @@ jobs:
 
   docker-push:
     env:
-      IMAGE_NAME: "/carrier/vantage6-test-algorithms"
+      IMAGE_NAME: "carrier/vantage6-test-algorithms"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
