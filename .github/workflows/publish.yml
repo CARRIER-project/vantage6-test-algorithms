@@ -20,11 +20,11 @@ jobs:
         password: ${{ secrets.CARRIER_HARBOR_PASSWORD }}
         
     - name: Create image name
-      run: echo ${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }}
+      run: echo NAME=${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }} >> $GITHUB_OUTPUT
       id: complete_image_name
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs }}
+      run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs.NAME }}
 
     - name: Push the Docker image
       run: docker push $IMAGE_NAME
