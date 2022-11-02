@@ -13,6 +13,9 @@ DEFAULT_IMAGE = 'harbor.carrier-mu.src.surf-hosted.nl/carrier/vantage6-test-algo
 
 def test_on_v6(host: str, port: int, username: str, password: str, private_key: str,
                collaboration_id: int, image=DEFAULT_IMAGE):
+    print(f'host: {host}, port: {port}, username: {username}: password: {password}')
+    print(f'image: {image}')
+
     client = v6client.Client(host, port, verbose=True)
 
     client.authenticate(username, password)
