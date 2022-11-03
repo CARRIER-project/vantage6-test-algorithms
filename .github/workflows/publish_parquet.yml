@@ -39,13 +39,11 @@ jobs:
       - name: Create extended image name
         id: extended_name
         run: >
-          echo "EXTENDED_NAME=${{ steps.complete_image_name.outputs.NAME }}_${{ steps.v6_version.outputs.TAG}}"
-            >> $GITHUB_OUTPUT
+          echo NAME=${{ steps.complete_image_name.outputs.NAME }}_${{ steps.v6_version.outputs.TAG}} >> $GITHUB_OUTPUT
 
       - name: Tag with vantage version
         run: >
-          docker tag ${{ steps.complete_image_name.outputs.NAME }} 
-          ${{ steps.extended_name.outputs.EXTENDED_NAME }}
+          docker tag ${{ steps.complete_image_name.outputs.NAME }} ${{ steps.extended_name.outputs.NAME }}
       - name: push tagged version
         run: >
           docker push ${{ steps.extended_name.outputs.EXTENDED_NAME }}
