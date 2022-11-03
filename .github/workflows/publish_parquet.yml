@@ -38,7 +38,7 @@ jobs:
 
     - name: Create extended image tag
       id: extended_tag
-      run: echo NAME=${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }}:parquet 
+      run: echo NAME=${{ steps.complete_image_name.outputs.NAME }}parquet 
           >> $GITHUB_OUTPUT
 
     - name: Tag with vantage version
