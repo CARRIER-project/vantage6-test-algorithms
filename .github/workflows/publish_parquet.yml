@@ -26,7 +26,10 @@ jobs:
       id: complete_image_name
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs.NAME }}
+      run: docker build . --file Dockerfile.parquet --tag ${{ steps.complete_image_name.outputs.NAME }}
+
+    - name: Push the Docker image
+      run: docker push ${{ steps.complete_image_name.outputs.NAME }}
 
     - name: Retrieve the vantage6 client version
       id: v6_version
@@ -35,13 +38,15 @@ jobs:
         grep vantage6-client|
         sed 's/vantage6-client==/TAG=parquet_v6-/g' >> $GITHUB_OUTPUT
 
-    - name: Push the Docker image
-      run: docker push ${{ steps.complete_image_name.outputs.NAME }}
+    - name: Create extended image tag
+      id: extended_tag
+      run: echo NAME=${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }}:parquet 
+          >> $GITHUB_OUTPUT
 
     - name: Tag with vantage version
       run: >
         docker tag ${{ steps.complete_image_name.outputs.NAME }} 
-        ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs.TAG }}
+        ${{ steps.complete_image_name.outputs.NAME }}_${{ steps.v6_version.outputs.TAG }}
     - name: push tagged version
       run: >
         docker push ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs.TAG }}
