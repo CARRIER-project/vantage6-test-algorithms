@@ -33,9 +33,7 @@ jobs:
     - name: Retrieve the vantage6 client version
       id: v6_version
       run: >
-        docker run ${{ steps.complete_image_name.outputs.NAME }} python -m pip freeze|
-        grep vantage6-client|
-        sed 's/vantage6-client==/TAG=parquet_v6-/g' >> $GITHUB_OUTPUT
+        docker run ${{ steps.complete_image_name.outputs.NAME }} python -m pip freeze| grep vantage6-client| sed 's/vantage6-client==/TAG=parquet_v6-/g' >> $GITHUB_OUTPUT
 
     - name: Create extended image tag
       id: extended_tag
