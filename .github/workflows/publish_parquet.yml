@@ -40,7 +40,7 @@ jobs:
       id: extended_name
       run: >
         echo NAME=${{ steps.complete_image_name.outputs.NAME }}_${{ steps.v6_version.outputs.TAG}}
-          >> $GITHUB_PUTPUT
+          >> $GITHUB_OUTPUT
 
     - name: Tag with vantage version
       run: >
