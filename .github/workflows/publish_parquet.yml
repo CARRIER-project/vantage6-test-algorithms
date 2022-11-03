@@ -1,0 +1,45 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+
+  docker-push:
+    env:
+      IMAGE_NAME: "carrier/vantage6-test-algorithms"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Login
+      uses: docker/login-action@v2.1.0
+      with:
+        registry: ${{ secrets.CARRIER_HARBOR_SERVER }}
+        username: ${{ secrets.CARRIER_HARBOR_USER }}
+        password: ${{ secrets.CARRIER_HARBOR_PASSWORD }}
+        
+    - name: Create image name
+      run: echo NAME=${{ secrets.CARRIER_HARBOR_SERVER }}/${{ env.IMAGE_NAME }} >> $GITHUB_OUTPUT
+      id: complete_image_name
+    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ steps.complete_image_name.outputs.NAME }}
+
+    - name: Retrieve the vantage6 client version
+      id: v6_version
+      run: >
+        docker run ${{ steps.complete_image_name.outputs.NAME }} python -m pip freeze|
+        grep vantage6-client|
+        sed 's/vantage6-client==/TAG=parquet_v6-/g' >> $GITHUB_OUTPUT
+
+    - name: Push the Docker image
+      run: docker push ${{ steps.complete_image_name.outputs.NAME }}
+
+    - name: Tag with vantage version
+      run: >
+        docker tag ${{ steps.complete_image_name.outputs.NAME }} 
+        ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs.TAG }}
+    - name: push tagged version
+      run: >
+        docker push ${{ steps.complete_image_name.outputs.NAME }}:${{ steps.v6_version.outputs.TAG }}
