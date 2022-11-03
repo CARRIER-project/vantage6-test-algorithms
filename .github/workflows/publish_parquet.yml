@@ -34,7 +34,7 @@ jobs:
       id: v6_version
       run: >
         docker run ${{ steps.complete_image_name.outputs.NAME }} python -m pip list| 
-        grep vantage6-client| sed 's/vantage6-client    /TAG=_v6-/g' >> $GITHUB_OUTPUT
+        grep vantage6-client| sed 's/vantage6-client    /TAG=v6-/g' >> $GITHUB_OUTPUT
 
     - name: Create extended image name
       id: extended_name
@@ -44,8 +44,7 @@ jobs:
 
     - name: Tag with vantage version
       run: >
-        docker tag ${{ steps.complete_image_name.outputs.NAME }} 
-        ${{ steps.extended_name.outputs.NAME }}
+        docker tag ${{ steps.complete_image_name.outputs.NAME }} ${{ steps.extended_name.outputs.NAME }}
     - name: push tagged version
       run: >
         docker push ${{ steps.extended_name.outputs.NAME }}
